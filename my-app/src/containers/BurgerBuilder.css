@@ -1,0 +1,38 @@
+/* .Controls {
+  display: flex;
+  justify-content: space-around;
+  background-color: #eaae00;
+}
+
+.order-info {
+  display: flex;
+  flex-flow: column;
+}
+
+.order-info .label {
+  text-align: center;
+  margin-top: 7rem;
+  margin-bottom: 2rem;
+} */
+
+.red {
+  border: 1px solid red;
+}
+
+.Controls {
+  /* display: flex; */
+  justify-content: space-around;
+  background-color: #eaae00;
+  padding: 0 10px;
+}
+
+.order-info {
+  display: flex;
+  flex-flow: column;
+}
+
+.order-info .label {
+  text-align: center;
+  margin-top: 7rem;
+  margin-bottom: 2rem;
+}

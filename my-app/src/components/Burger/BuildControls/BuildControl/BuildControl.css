@@ -1,0 +1,16 @@
+.BuildControl {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: stretch;
+  margin: 5px 0;
+  width: 25%;
+}
+
+.BuildControl .label {
+  display: block;
+  font: inherit;
+  padding: -5px;
+  width: 20px;
+  text-align: center;
+  min-width: 9rem !important;
+}

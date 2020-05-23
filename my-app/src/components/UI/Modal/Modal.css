@@ -1,0 +1,40 @@
+.modal {
+  width: 46% !important;
+  height: 310px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease-out;
+}
+
+.modal-info {
+  font-size: 20px;
+  text-align: center;
+  padding: 10px;
+  margin: 0 auto;
+}
+
+.bill-para {
+  text-align: center;
+  font-size: 1.3rem;
+  margin: 15px 0 5px 0;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.btns {
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  width: 200px;
+  display: block !important;
+  margin: 10px auto !important;
+}
+
+.children {
+  margin: 0 auto !important;
+  width: 75%;
+}
