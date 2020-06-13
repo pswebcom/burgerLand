@@ -1,4 +1,5 @@
 import React from "react";
+import NavigationItems from "../Navigation/NavigationItems/NavigationItems";
 import "./Navigation.css";
 
 const navigation = () => {
@@ -18,21 +19,7 @@ const navigation = () => {
         </button>
         <div className="collapse navbar-collapse " id="collapsibleNavbar">
           <ul className="navbar-nav ml-auto align-items-center ss ">
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                BurgerBuilder
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                About Us
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Checkout
-              </a>
-            </li>
+            <NavigationItems />
           </ul>
         </div>
       </div>

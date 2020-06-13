@@ -13,11 +13,11 @@
 }
 
 .nav-item {
-  background-color: #c46023;
-  margin-right: 0.5rem;
+  /* background-color: #c46023 !important;
+  margin-right: 1rem;
   color: #fff !important;
   padding: 2px;
-  border-radius: 2px;
+  border-radius: 2px; */
 }
 
 .nav-item:hover {

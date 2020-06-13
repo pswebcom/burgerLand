@@ -1,0 +1,17 @@
+/* .nav-item {
+  background-color: #c46023 !important;
+  margin-right: 0.5rem; */
+/* color: #fff !important; */
+/* padding: 2px;
+  border-radius: 2px;
+} */
+
+/* .nav-item:hover {
+  background-color: brown;
+} */
+
+.nav-link {
+  background-color: #16ab39;
+  border-radius: 3px;
+  color: #fff !important;
+}

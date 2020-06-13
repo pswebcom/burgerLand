@@ -6,8 +6,8 @@ import SauceControls from "../components/Burger/SauceControls/SauceControls";
 import Modal from "../components/UI/Modal/Modal";
 import OrderSummary from "../components/Burger/OrderSummary/OrderSummary";
 import ErrorModal from "../components/UI/ErrorModal/ErrorModal";
-import axios from "../firebase/axios-orders";
 import Spinner from "../components/UI/Spinner/Spinner";
+import Checkout from "../containers/Checkout/Checkout";
 import "./BurgerBuilder.css";
 
 const INGREDIENT_PRICES = {
@@ -58,30 +58,69 @@ class BurgerBuilder extends Component {
     this.setState({ purchasing: false });
   };
   purchaseContinueHandler = () => {
+    // const order = {
+    //   ingredients: this.state.ingredients,
+    //   price: this.state.totalPrice,
+    //   customer: {
+    //     name: "Maxmillan",
+    //     address: {
+    //       street: "Teststreet",
+    //       zipcode: "12345",
+    //       country: "Germany",
+    //     },
+    //     email: "test@test.com",
+    //   },
+    //   deleiveryMethod: "fastest",
+
+    //};
+
+    // setTimeout(() => {
+    //   axios
+    //     .post("/orders.json", order)
+    //     .then((resp) => this.setState({ loading: false, purchasing: false }))
+    //     .catch((err) => this.setState({ loading: false, purchasing: false }));
+    // }, 500);
+
+    // this.props.history.push("/checkout");
     this.setState({ loading: true });
+    const queryIngredients = [];
+    const querySauces = [];
+    // let bread = this.state.breadSelected;
+    for (let i in this.state.ingredients) {
+      queryIngredients.push(
+        encodeURIComponent(i) +
+          "=" +
+          encodeURIComponent(this.state.ingredients[i])
+      );
+    }
+    for (let i in this.state.sauces) {
+      querySauces.push(
+        encodeURIComponent(i) + "=" + encodeURIComponent(this.state.sauces[i])
+      );
+    }
 
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.totalPrice,
-      customer: {
-        name: "Maxmillan",
-        address: {
-          street: "Teststreet",
-          zipcode: "12345",
-          country: "Germany",
-        },
-        email: "test@test.com",
-      },
-      deleiveryMethod: "fastest",
-    };
+    //******************************IMPORTANT DONT DELETE*********************************************************************************************
+    // const queryBread =
+    //   encodeURIComponent("SelectedBread") + "=" + encodeURIComponent(bread);
+    // const queryParams = queryIngredients.concat(querySauces, queryBread);
+    //******************************************************************************************************************/
 
-    setTimeout(() => {
-      axios
-        .post("/orders.json", order)
-        .then((resp) => this.setState({ loading: false, purchasing: false }))
-        .catch((err) => this.setState({ loading: false, purchasing: false }));
-    }, 500);
+    // const queryParams = queryIngredients.concat(querySauces);
+
+    const queryParams = queryIngredients.concat(querySauces);
+    queryParams.push(
+      "price=" + this.state.totalPrice,
+      "bread=" + this.state.breadSelected
+    );
+    // --------------------------------------------------------------------------------------------------------------------------------------------
+    let queryString = queryParams.join("&");
+
+    this.props.history.push({
+      pathname: "/checkout",
+      search: "?" + queryString,
+    });
   };
+
   purchaseClickHandler = () => {
     if (this.state.breadSelected === "") {
       this.setState({
@@ -97,6 +136,7 @@ class BurgerBuilder extends Component {
       this.setState({ purchasing: true });
     }
   };
+
   componentDidUpdate(prevProps, prevState) {
     if (this.state.ingredients !== prevState.ingredients) {
       const ingredients = {
@@ -228,6 +268,7 @@ class BurgerBuilder extends Component {
         ></ErrorModal>
 
         <Burger ingredients={this.state.ingredients} />
+
         <div className="Controls row">
           <div className="column col-sm-12 col-md-6   col-xl-3">
             <BreadControls breadSelected={this.breadSelectionHandler} />

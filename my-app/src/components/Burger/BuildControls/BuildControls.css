@@ -3,10 +3,11 @@
   width: 100%;
   display: flex;
   align-items: center;
-  box-shadow: 0 2px 1px #ccc;
+  /* box-shadow: 0 2px 1px #ccc; */
   margin: auto;
-  padding: 10px 0;
+  /* padding: 10px 0; */
   flex-flow: column;
   /* background-color: #3d698e; */
   background-color: #16ab39;
+  bottom: 35px;
 }

@@ -1,0 +1,39 @@
+.CheckoutSummary {
+  text-align: center;
+  width: 50% !important;
+  margin: auto;
+  background-color: bisque;
+  margin-top: 7.5rem;
+  height: 520px;
+  position: relative;
+}
+
+.heading {
+  margin-top: 1rem !important;
+  padding-top: 2rem !important;
+  margin-bottom: -30px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.8rem;
+}
+
+div.Burger {
+  margin-top: 65px;
+}
+.burger-checkout {
+  position: absolute !important;
+  bottom: 200px;
+}
+
+.btns {
+  display: flex;
+  justify-content: center;
+}
+/* 
+@media (min-width: 600px) {
+  .CheckoutSummary {
+    text-align: center;
+    width: 500px;
+    margin: auto;
+    border: 1px solid green;
+  }
+} */
