@@ -5,7 +5,6 @@ import "./CheckoutSummary.css";
 import OrderSummary from "../../Burger/OrderSummary/OrderSummary";
 
 const CheckoutSummary = (props) => {
-  console.log(props);
   return (
     <div className="CheckoutSummary">
       <h1 className="heading">Enjoy your burger</h1>

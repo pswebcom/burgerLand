@@ -2,8 +2,6 @@ import React from "react";
 import "./Order.css";
 
 const Order = (props) => {
-  console.log(props);
-
   // /transform ingredients into an array of ingredients
   const ingredients = [];
   for (let ingredientName in props.ingredients) {
@@ -27,7 +25,8 @@ const Order = (props) => {
 
   const bread = props.bread;
   const price = Number(props.price);
-  const orderId = props.orderId;
+  const orderId = props.orderId.substring(1, 7);
+  const invoiceDate = props.invoiceDate;
 
   const ingredientOutput = ingredients.map((ing) => {
     return (
@@ -48,10 +47,10 @@ const Order = (props) => {
 
   return (
     <div className="ui brown  segment order">
-      <table class="ui celled table">
+      <table className="ui celled table">
         <thead>
           <tr>
-            <th></th>
+            <th>Date:{invoiceDate}</th>
             <th>
               <h2>Order Id:{orderId}</h2>
             </th>

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Button from "../../../components/UI/Button/Button";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import axios from "../../../firebase/axios-orders";
+import { Redirect } from "react-router-dom";
+// import Input from "../../../components/UI/Input/Input";
 import "./ContactData.css";
 
 class ContactData extends Component {
@@ -22,13 +24,22 @@ class ContactData extends Component {
       Hot: false,
     },
     breadSelected: "",
+    // customer: {
     name: "",
     email: "",
-    address: {
-      street: "",
-      postalcode: "",
-    },
+    street: "",
+    postalCode: "",
+    country: "",
+    delivery: "",
+    // },
+
     loading: false,
+    errors: [],
+    redirectToOrders: false,
+  };
+
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   componentDidMount() {
@@ -58,56 +69,182 @@ class ContactData extends Component {
     });
   }
 
-  orderHandler = (e) => {
+  handleOrderSubmit = (e) => {
     e.preventDefault();
-    this.setState({ loading: true });
-    const order = {
-      ingredients: this.state.ingredients,
-      sauces: this.state.sauces,
-      bread: this.state.breadSelected,
-      price: this.state.totalPrice,
-      customer: {
-        name: "Maxmillan",
-        address: {
-          street: "Teststreet",
-          zipcode: "12345",
-          country: "Germany",
-        },
-        email: "test@test.com",
-      },
-      deleiveryMethod: "fastest",
-    };
+    const {
+      name,
+      email,
+      street,
+      postalCode,
+      country,
+      delivery,
+      ingredients,
+      sauces,
+      breadSelected,
+      totalPrice,
+    } = this.state;
+    this.setState({ errors: [], loading: true });
 
-    //  setTimeout(() => {
-    axios
-      .post("/orders.json", order)
-      .then((resp) => this.setState({ loading: false }))
-      .catch((err) => this.setState({ loading: false }));
-    //  }, 500);
+    if (this.isFormValid()) {
+      let day = new Date().getDate();
+      let month = new Date().getMonth();
+      let correctMonth = month < 10 ? "0" + month : month;
+      let year = new Date().getFullYear();
+      let invoiceDate = day + "/" + correctMonth + "/" + year;
+      const order = {
+        ingredients: ingredients,
+        sauces: sauces,
+        bread: breadSelected,
+        price: totalPrice,
+        customer: {
+          name: name,
+          email: email,
+          address: {
+            street: street,
+            zipcode: postalCode,
+            country: country,
+          },
+        },
+        deliveryMethod: delivery,
+        invoiceDate: invoiceDate,
+      };
+      //  setTimeout(() => {
+      axios
+        .post("/orders.json", order)
+        .then((resp) =>
+          this.setState({ loading: false, redirectToOrders: true })
+        )
+        .catch((err) => this.setState({ loading: false }));
+    }
+  };
+
+  isFormValid = () => {
+    let error;
+    let errors = [];
+
+    if (this.isInputEmpty(this.state)) {
+      error = { message: "Please fill in all the fields" };
+      this.setState({ errors: errors.concat(error), loading: false });
+      return false;
+    } else if (!this.isInputValid(this.state)) {
+      return false;
+    }
+    return true;
+  };
+
+  handleInputError = (errors, inputName) => {
+    return errors.some((err) => err.message.toLowerCase().includes(inputName))
+      ? "error"
+      : "";
+  };
+
+  isInputEmpty = ({ name, email, street, postalCode, country, delivery }) => {
+    return (
+      !name.length ||
+      !email.length ||
+      !street.length ||
+      !postalCode.length ||
+      !country.length ||
+      !delivery.length
+    );
+  };
+
+  displayErrors = (errors) =>
+    errors.map((err, i) => <p key={i}>{err.message}</p>);
+
+  isInputValid = ({ email, postalCode }) => {
+    let error;
+    let errors = [];
+
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      error = { message: "A valid email is required" };
+      this.setState({
+        errors: errors.concat(error),
+        loading: false,
+      });
+      return false;
+    }
+    if (!/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/.test(postalCode)) {
+      error = { message: "A valid canadian postal code is required" };
+      this.setState({
+        errors: errors.concat(error),
+        loading: false,
+      });
+      return false;
+    }
+    return true;
   };
 
   render() {
+    const { errors, redirectToOrders } = this.state;
     let form = (
       <form className="ui form">
         <div className="field">
-          <label>First Name</label>
-          <input type="text" name="first-name" placeholder="First Name" />
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            onChange={this.handleChange}
+            className={this.handleInputError(errors, "name")}
+          />
         </div>
         <div className="field">
-          <label>Last Name</label>
-          <input type="text" name="last-name" placeholder="Last Name" />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            onChange={this.handleChange}
+            className={this.handleInputError(errors, "email")}
+          />
         </div>
         <div className="field">
-          <div className="ui checkbox">
-            <input type="checkbox" className="hidden" />
-            <label>I agree to the Terms and Conditions</label>
-          </div>
+          <input
+            type="text"
+            name="street"
+            placeholder="Street Address"
+            onChange={this.handleChange}
+            className={this.handleInputError(errors, "street")}
+          />
+        </div>
+        <div className="field">
+          <input
+            type="text"
+            name="postalCode"
+            placeholder="Postal code"
+            onChange={this.handleChange}
+            className={this.handleInputError(errors, "postal")}
+          />
+        </div>
+        <div className="field">
+          <select
+            className="ui fluid search dropdown"
+            onChange={this.handleChange}
+            name="country"
+            className={this.handleInputError(errors, "country")}
+          >
+            <option value="">Country</option>
+            <option value="usa">USA</option>
+            <option value="canada">Canada</option>
+            <option value="mexico">Mexico</option>
+          </select>
+        </div>
+        <div className="field">
+          <select
+            className="ui fluid search dropdown"
+            onChange={this.handleChange}
+            name="delivery"
+            className={this.handleInputError(errors, "delivery")}
+          >
+            <option value="">Delivery Method</option>
+            <option value="fastest">Fastest</option>
+            <option value="regular">Regular</option>
+          </select>
         </div>
         <Button
-          className="Add"
+          className="btnone"
           color="green"
-          size="medium"
-          btnClicked={this.orderHandler}
+          size="larger"
+          btnClicked={this.handleOrderSubmit}
         >
           Order Now
         </Button>
@@ -118,9 +255,27 @@ class ContactData extends Component {
       form = <Spinner />;
     }
 
+    if (redirectToOrders) {
+      //RETURN TO PROFILE COMPONENT
+      return <Redirect to={`/orders`} />;
+    }
+
     return (
       <div className="contact-data">
         <h1>Enter your Contact Data</h1>
+        {/* <div
+          className="alert alert-danger mb-2"
+          style={{
+            display: error ? "" : "none",
+          }}
+        >
+          {error}
+        </div> */}
+
+        {errors.length > 0 && (
+          <div className="errors">{this.displayErrors(this.state.errors)}</div>
+        )}
+
         {form}
       </div>
     );

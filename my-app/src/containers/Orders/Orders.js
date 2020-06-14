@@ -17,7 +17,6 @@ export default class Orders extends Component {
         for (const key in res.data) {
           fetchedOrders.push({ ...res.data[key], id: key });
         }
-        console.log(fetchedOrders);
         this.setState({ loading: false, orders: fetchedOrders });
       })
       .catch((err) => {
@@ -28,6 +27,7 @@ export default class Orders extends Component {
   render() {
     return (
       <div className="orders">
+        <h1 style={{ textAlign: "center" }}>Order Confirmation</h1>
         {this.state.orders.map((order) => {
           return (
             <Order
@@ -37,6 +37,7 @@ export default class Orders extends Component {
               bread={order.bread}
               price={order.price}
               orderId={order.id}
+              invoiceDate={order.invoiceDate}
             />
           );
         })}

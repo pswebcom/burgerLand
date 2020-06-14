@@ -1,3 +1,42 @@
 .contact-data {
   height: 600px;
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 100px;
+  text-align: center;
+}
+
+h1 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: lighter;
+}
+
+.input {
+  margin-bottom: 20px !important;
+}
+
+.option {
+  padding: 10px !important;
+}
+
+.btnone {
+  display: block !important;
+  width: 90% !important;
+  background-color: #fff;
+  margin: 0 auto;
+}
+
+.errors {
+  background-color: red;
+  color: #fff;
+  padding: 4px;
+  margin-bottom: 10px;
+}
+
+.error {
+  border: 1px solid red !important;
+}
+
+.btnone:hover {
+  background-color: #43cc4c !important;
 }
